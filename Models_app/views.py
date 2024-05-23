@@ -98,10 +98,12 @@ def predict(request):
             continue
         x = x.squeeze(0).cpu()
         y = y.squeeze(0).cpu()
-        fig, ax = plt.subplots(1, 2)
-        ax[0].imshow(x)
-        ax[1].imshow(y)
-        plt.savefig('staticfiles/outputs/pred.png')
+        x_np = (x.numpy() * 255).astype(np.uint8)
+        y_np = (y.numpy() * 255).astype(np.uint8)
+
+        Image.fromarray(x_np).save(f'staticfiles/outputs/original_{cnt}.png')
+        Image.fromarray(y_np).save(f'staticfiles/outputs/prediction_{cnt}.png')
+
     return redirect('results')
 
 
